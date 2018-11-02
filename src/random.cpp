@@ -43,7 +43,7 @@ void RandomNumbers::poisson(std::vector<int> &res, double mean) {
     for (auto I = res.begin(); I != res.end(); I++) *I = pois(rng);
 }
 
-void RandomNumbers::uniform_int(std::vector<int> &res, int lower, int upper) {
+void RandomNumbers::uniform_int(std::vector<int> &res, int lower, int upper) { //distribution uniform entre lower et upper qui rempli un tableau de int avec des valeur aléatoire de cette distribution
     std::uniform_int_distribution<> unif(lower, upper);
     for (auto I = res.begin(); I != res.end(); I++) *I = unif(rng);
 }

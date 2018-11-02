@@ -12,7 +12,7 @@ option(test "Build tests." ON)
 include_directories("/usr/local/include" ${CMAKE_SOURCE_DIR}/include)
 link_directories(${CMAKE_SOURCE_DIR}/lib)
 
-add_executable(NetSim src/main.cpp src/network.cpp src/simulation.cpp src/random.cpp)
+add_executable(NetSim src/main.cpp src/network.cpp src/simulation.cpp src/random.cpp src/test_main.cpp)
 
 if (test)
   enable_testing()
