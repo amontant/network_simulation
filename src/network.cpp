@@ -24,36 +24,20 @@ void Network::resize(const size_t& n){ /// A REVOIR!! -> RESIZE??
  */	
 bool Network::add_link(const size_t& a, const size_t& b){ //a est lié avec b, l'inverse aussi et retourne si ça a marché
 	//Si a-b et b-a n'existe pas déjà les créer ie rajouter comme mapped value de values[a] b et inversement
-	
-	//Utiliser Neighbors
+
 		bool is_linked_with; 
 	for(size_t i=0; i<neighbors(a).size();++i){
 		if (neighbors(a)[i]==b){
 			is_linked_with=true;
 			}else{is_linked_with=false;}		
 		}
-	/*
-	size_t minimum = std::min(links.count(a),links.count(b)); //le noeuds avec le moins de connection
-	size_t maximum;
-	if(minimum==a){ maximum=b;}
-	else {maximum = a;}
 
-	auto node_key = links.find(minimum);
-	while(node_key->first != links.count(minimum)){ //PAS CONTENT, SARRETE JAMAIS ET TOMBE TOUJOURS DANS FALSE
-		cerr<<"CHHHHHHHH"<<endl;
-		if (node_key->first==maximum){
-			is_linked_with=true;
-			}else {is_linked_with=false;
-						cerr<<"CHHHHHHHHC"<<endl;}
-		}
-*/
-
-	if((is_linked_with==true)or(a==b)){
+	if((is_linked_with==true)or(a==b) or (max(a,b) >=values.size())){
 		
 			 return false;
 		}else{
-			links.emplace(values[a], values[b]);
-			links.emplace(values[b], values[a]);
+			links.insert (make_pair(a,b));
+			links.insert (make_pair(b,a));
 			return true;
 		}
 	
