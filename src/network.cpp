@@ -1,5 +1,6 @@
 #include "network.h"
 #include "random.h"
+#include <iostream>
 using namespace std;
 
 
@@ -9,10 +10,11 @@ using namespace std;
  */
 void Network::resize(const size_t& n){ /// A REVOIR!! -> RESIZE??
 	RandomNumbers rng;
-	values.clear();
-	for(size_t i=0; i<n; ++i){
-		values[i]=rng.normal(0,1);
-		}	
+		values.clear();//tableau de taille 0
+	for (size_t i=0; i<n; ++i){
+		values.push_back(0); //tableau de taille n initialisé à 0
+		}
+		rng.normal(values, 0.0,1.0);//valeurs aléatoires générées 
 	}
 	
 	
@@ -22,19 +24,29 @@ void Network::resize(const size_t& n){ /// A REVOIR!! -> RESIZE??
  */	
 bool Network::add_link(const size_t& a, const size_t& b){ //a est lié avec b, l'inverse aussi et retourne si ça a marché
 	//Si a-b et b-a n'existe pas déjà les créer ie rajouter comme mapped value de values[a] b et inversement
+	
+	//Utiliser Neighbors
+		bool is_linked_with; 
+	for(size_t i=0; i<neighbors(a).size();++i){
+		if (neighbors(a)[i]==b){
+			is_linked_with=true;
+			}else{is_linked_with=false;}		
+		}
+	/*
 	size_t minimum = std::min(links.count(a),links.count(b)); //le noeuds avec le moins de connection
 	size_t maximum;
 	if(minimum==a){ maximum=b;}
 	else {maximum = a;}
-	
-	bool is_linked_with; 
+
 	auto node_key = links.find(minimum);
-	while(node_key->first != links.count(minimum)){ 
+	while(node_key->first != links.count(minimum)){ //PAS CONTENT, SARRETE JAMAIS ET TOMBE TOUJOURS DANS FALSE
+		cerr<<"CHHHHHHHH"<<endl;
 		if (node_key->first==maximum){
 			is_linked_with=true;
-			}else {is_linked_with=false;}
+			}else {is_linked_with=false;
+						cerr<<"CHHHHHHHHC"<<endl;}
 		}
-
+*/
 
 	if((is_linked_with==true)or(a==b)){
 		
@@ -60,22 +72,22 @@ bool Network::add_link(const size_t& a, const size_t& b){ //a est lié avec b, l
   * */
 size_t Network::random_connect(const double& n){ ///!!!!! A REVOIR
 	links.clear();//  All previous links are cleared first.
-	
 	RandomNumbers rng; //déclaration de la class 
 	std::vector<int> random_index;
 	size_t poisson;
 	poisson=rng.poisson(n); //génère un nombre aléatoire
 	random_index.resize(poisson); //adapte la taille du tableau
 	size_t res (0); //nombre de lien au total
-	
 	for (size_t i=0; i<values.size(); ++i){ //on veut attribuer à chacun des nouveaux nodes une valeur grâce à une répartition uniforme
 		rng.uniform_int(random_index, 0, size()); //rempli random_index de valeur de distribution uniforme
 		for(size_t j=0; j< random_index.size();++j){
 			if (add_link(i, random_index[j])){ //si on peut faire un lien avec un des noeuds de random_index 
+				//PAS CONTENT -bug
 			res++;} //return le nombre de lien au total
 			}
-			
+
 		}
+
 	return res; 
 
 	
